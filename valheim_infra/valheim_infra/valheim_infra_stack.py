@@ -2,13 +2,9 @@ from unicodedata import name
 from aws_cdk import (
     # Duration,
     Stack,
-    aws_ec2 as ec2,
-    aws_sqs as sqs,
+    aws_ec2 as ec2
 )
 from constructs import Construct
-
-instanceName="valheimDedicated"
-instanceType="t2.micro"
 
 class ValheimInfraStack(Stack):
 
@@ -36,9 +32,9 @@ class ValheimInfraStack(Stack):
         valheimIngress.add_ingress_rule(ec2.Peer.any_ipv4(),ec2.Port.tcp(2458), 'Valheim connect 3')
 
         instance_type = ec2.InstanceType(self.instance_type)
-
+        
         ec2_instance = ec2.Instance(
-            self,'ec2_instance',instance_name=self.instance_name, instance_type=instance_type, machine_image=ami_image, vpc=vpc
+            self,'ec2_instance',instance_name=self.instance_name, instance_type=instance_type, machine_image=ami_image, vpc=vpc, key_name=""
         )
         ec2_instance.add_security_group(security_group=sshIngress)
         ec2_instance.add_security_group(security_group=valheimIngress)
