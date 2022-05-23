@@ -15,7 +15,7 @@ class ValheimInfraStack(Stack):
 
     public_key_name = "ec2_rsa"
     instance_name = 'valheim_instance' 
-    instance_type = 't3.micro'
+    instance_type = 't3.medium'
     ami_name = 'ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220511'
     
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -42,9 +42,9 @@ class ValheimInfraStack(Stack):
         sshIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(), cdk_ec2.Port.tcp(22), 'ssh')
 
         valheimIngress = cdk_ec2.SecurityGroup(self,id='valheim-sg',security_group_name='valheim-sg',vpc=vpc,allow_all_outbound=True)
-        valheimIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(),cdk_ec2.Port.tcp(2456), 'Valheim connect 1')
-        valheimIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(),cdk_ec2.Port.tcp(2457), 'Valheim connect 2')
-        valheimIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(),cdk_ec2.Port.tcp(2458), 'Valheim connect 3')
+        valheimIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(),cdk_ec2.Port.udp(2456), 'Valheim connect 1')
+        valheimIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(),cdk_ec2.Port.udp(2457), 'Valheim connect 2')
+        valheimIngress.add_ingress_rule(cdk_ec2.Peer.any_ipv4(),cdk_ec2.Port.udp(2458), 'Valheim connect 3')
 
         instance_type = cdk_ec2.InstanceType(self.instance_type)
         
