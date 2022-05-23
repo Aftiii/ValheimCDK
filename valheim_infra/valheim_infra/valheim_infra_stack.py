@@ -30,18 +30,6 @@ class ValheimInfraStack(Stack):
         if len(existingKeyPairs.keys()) == 0:
             ec2.import_key_pair(KeyName=self.public_key_name,PublicKeyMaterial=public_key,TagSpecifications=[{'ResourceType':'key-pair','Tags':[{'Key':'purpose','Value':'ec2_auth'}]}])
 
-        #httpRequestMethod = "GET"
-        #canonicalURI = "https://ec2.amazonaws.com/?"
-        #canonicalQueryString = "Action=ImportKeyPair&"
-        #canonicalQueryString += f"KeyName={self.public_key_name}&"
-        #canonicalQueryString += f"PublicKeyMaterial={pub_key_as_base64}&"
-        #canonicalQueryString += "TagSpecification.1.ResourceType=key-pair&"
-        #canonicalQueryString += "TagSpecification.1.Tag.1.Key=purpose&"
-        #canonicalQueryString += "TagSpecification.1.Tag.1.Value=ec2_auth"
-
-        
-        #canonicalRequest = 
-
         ami_image = cdk_ec2.MachineImage().lookup(name=self.ami_name)
 
         vpc = cdk_ec2.Vpc(self, 'valheim-cdk-vpc', 
